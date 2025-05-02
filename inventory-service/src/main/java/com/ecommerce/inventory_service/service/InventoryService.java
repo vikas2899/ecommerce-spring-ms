@@ -28,4 +28,13 @@ public class InventoryService {
         return InventoryMapper.toDTO(inventory.get());
     }
 
+    public boolean isStockAvailableForProductId(UUID productId, int askedQuantity) {
+        Optional<Inventory> inventory = inventoryRepository.findByProductId(productId);
+        if(inventory.isEmpty()) {
+            throw new ProductNotFoundException("Product with given id not found in inventory: " + productId);
+        }
+
+        return inventory.get().getQuantity() >= askedQuantity;
+    }
+
 }

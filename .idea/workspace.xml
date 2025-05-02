@@ -5,24 +5,85 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="251d301b-4aff-46a3-bc02-60837b3eaa54" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/api_gateway.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/auth_service.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/discovery_service.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/inventory_service.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/product_service.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api-gateway/src/main/java/com/ecommerce/api_gateway/exception/JwtValidationException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api-gateway/src/main/java/com/ecommerce/api_gateway/filter/JwtValidationGatewayFilterFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service/src/main/java/com/ecommerce/auth_service/config/SecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service/src/main/java/com/ecommerce/auth_service/controller/AuthController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service/src/main/java/com/ecommerce/auth_service/dto/LoginRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service/src/main/java/com/ecommerce/auth_service/dto/LoginResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service/src/main/java/com/ecommerce/auth_service/model/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service/src/main/java/com/ecommerce/auth_service/repository/AuthRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service/src/main/java/com/ecommerce/auth_service/service/AuthService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service/src/main/java/com/ecommerce/auth_service/utils/JwtUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/auth-service/src/main/resources/data.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/discovery-service/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/src/main/java/com/ecommerce/inventory_service/dto/InventoryCheckRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inventory-service/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/src/main/java/com/ecommerce/order_service/controller/CartController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/src/main/java/com/ecommerce/order_service/dto/AddCartRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/src/main/java/com/ecommerce/order_service/dto/AddCartResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/src/main/java/com/ecommerce/order_service/exception/CartException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/src/main/java/com/ecommerce/order_service/model/Cart.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/src/main/java/com/ecommerce/order_service/model/CartItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/src/main/java/com/ecommerce/order_service/repository/CartItemRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/src/main/java/com/ecommerce/order_service/repository/CartRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/src/main/java/com/ecommerce/order_service/service/CartService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/src/main/java/com/ecommerce/order_service/utils/JwtUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/order-service/src/main/resources/data.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/product-service/src/main/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/src/main/java/com/ecommerce/inventory_service/InventoryServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/src/main/java/com/ecommerce/inventory_service/InventoryServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/src/main/java/com/ecommerce/inventory_service/controller/InventoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/src/main/java/com/ecommerce/inventory_service/controller/InventoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/src/main/java/com/ecommerce/inventory_service/service/InventoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/inventory-service/src/main/java/com/ecommerce/inventory_service/service/InventoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory-service/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/order-service/src/test/java/com/ecommerce/order_service/OrderServiceApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/order-service/src/test/java/com/ecommerce/order_service/CartServiceApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/product-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product-service/src/main/java/com/ecommerce/product_service/ProductServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/product-service/src/main/java/com/ecommerce/product_service/ProductServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product-service/src/main/java/com/ecommerce/product_service/config/RestTemplateConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/product-service/src/main/java/com/ecommerce/product_service/config/RestTemplateConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product-service/src/main/java/com/ecommerce/product_service/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/product-service/src/main/java/com/ecommerce/product_service/controller/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product-service/src/main/java/com/ecommerce/product_service/service/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/product-service/src/main/java/com/ecommerce/product_service/service/ProductService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/product-service/src/main/resources/application.properties" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Record" />
+        <option value="Interface" />
+        <option value="Exception" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 8
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2wUnCOjZxpKHJHj3YC9eVCE1tKG" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -30,16 +91,45 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.ApiGatewayApplication.executor": "Run",
+    "Application.AuthServiceApplication.executor": "Run",
     "Application.InventoryServiceApplication.executor": "Run",
     "Application.ProductServiceApplication.executor": "Run",
+    "Application.api-gateway.executor": "Run",
+    "Application.auth-service.executor": "Run",
+    "Application.discovery-service.executor": "Run",
+    "Application.inventory-service.executor": "Run",
+    "Application.order-service.executor": "Run",
+    "Application.product-service.executor": "Run",
     "Maven.api-gateway [clean].executor": "Run",
+    "Maven.inventory-service [clean].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/vikaspandey01/OneDrive - Nagarro/Desktop/learn/ecommerce-assignment/auth-service"
+    "last_opened_file_path": "C:/Users/vikaspandey01/OneDrive - Nagarro/Desktop/learn/ecommerce-assignment/discovery-service",
+    "settings.editor.selected.configurable": "preferences.editor"
   }
 }]]></component>
+  <component name="RunManager" selected="Application.auth-service">
+    <configuration name="order-service" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="23" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="com.ecommerce.order_service.OrderServiceApplication" />
+      <module name="order-service" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.api-gateway" />
+      <item itemvalue="Application.auth-service" />
+      <item itemvalue="Application.inventory-service" />
+      <item itemvalue="Application.product-service" />
+      <item itemvalue="Application.order-service" />
+      <item itemvalue="Application.discovery-service" />
+    </list>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

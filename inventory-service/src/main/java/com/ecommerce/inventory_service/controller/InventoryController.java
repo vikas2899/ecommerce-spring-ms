@@ -1,5 +1,6 @@
 package com.ecommerce.inventory_service.controller;
 
+import com.ecommerce.inventory_service.dto.InventoryCheckRequestDTO;
 import com.ecommerce.inventory_service.dto.InventoryResponseDTO;
 import com.ecommerce.inventory_service.service.InventoryService;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +32,16 @@ public class InventoryController {
         }
 
         return ResponseEntity.ok().body(stocks);
+    }
+
+    @PostMapping("/check")
+    public ResponseEntity<Void> checkStockByProductId(@RequestBody InventoryCheckRequestDTO inventoryCheckRequestDTO) {
+        boolean response = inventoryService.isStockAvailableForProductId(inventoryCheckRequestDTO.getProductId(), inventoryCheckRequestDTO.getQuantity());
+        if(response) {
+            return ResponseEntity.ok().build();
+        }
+
+        return ResponseEntity.badRequest().build();
     }
 
 }

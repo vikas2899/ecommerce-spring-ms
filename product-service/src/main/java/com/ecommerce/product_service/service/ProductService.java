@@ -60,7 +60,7 @@ public class ProductService {
         return products.stream().map(ProductMapper::toDTO).toList();
     }
 
-    public List<ProductResponseDTO> searchProducts(String name, String categoryName) {
+    public List<ProductResponseDTO> searchProducts(String name, String categoryName, String authHeader) {
         List<ProductResponseDTO> responseDTO;
 
         if(name != null && categoryName != null) {
@@ -73,9 +73,11 @@ public class ProductService {
             responseDTO = getAllProducts();
         }
 
+        // Return only in-stock products
         List<String> productIds = responseDTO.stream().map(ProductResponseDTO::getId).toList();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(authHeader.replace("Bearer ", ""));
         HttpEntity<List<String>> entity = new HttpEntity<>(productIds, headers);
 
         ResponseEntity<Map<String, InventoryResponseDTO>> response = restTemplate.exchange(inventoryServiceUrl,
