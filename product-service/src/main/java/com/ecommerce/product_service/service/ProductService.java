@@ -73,6 +73,12 @@ public class ProductService {
             responseDTO = getAllProducts();
         }
 
+        return responseDTO;
+    }
+
+    public List<ProductResponseDTO> searchProductsWithInventory(String name, String categoryName, String authHeader) {
+        List<ProductResponseDTO> responseDTO = searchProducts(name, categoryName, authHeader);
+
         // Return only in-stock products
         List<String> productIds = responseDTO.stream().map(ProductResponseDTO::getId).toList();
         HttpHeaders headers = new HttpHeaders();

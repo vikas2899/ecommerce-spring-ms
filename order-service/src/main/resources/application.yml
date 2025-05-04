@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: order-service
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:order-service-db
+    driver-class-name: org.h2.Driver
+    username: admin
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+  sql:
+    init:
+      mode: always
+
+server:
+  port: 5002
+
+jwt:
+  secret: 4b9cf4fcbe5fd6a5fe682b421fb40c22c10d9e2dff3b2240036109dcc41ea2a0495b9073ccc4209e8c05feca2a8fc1c991c79c5bc8aa0baa1f2c1fed00bb8848
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka

@@ -3,15 +3,17 @@ server:
 
 auth:
   service:
-    url: http://localhost:5004/auth
+    url: lb://AUTH-SERVICE/auth
 
 spring:
+  application:
+    name: api-gateway
   cloud:
     gateway:
       routes:
 
         - id: product-service
-          uri: http://localhost:5000
+          uri: lb://PRODUCT-SERVICE
           predicates:
             - Path=/api/products/**
           filters:
@@ -19,7 +21,7 @@ spring:
             - JwtValidation
 
         - id: inventory-service
-          uri: http://localhost:5001
+          uri: lb://INVENTORY-SERVICE
           predicates:
             - Path=/api/inventory/**
           filters:
@@ -27,9 +29,18 @@ spring:
             - JwtValidation
 
         - id: auth-service
-          uri: http://localhost:5004
+          uri: lb://AUTH-SERVICE
           predicates:
             - Path=/api/auth/**
           filters:
             - StripPrefix=1
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
 
