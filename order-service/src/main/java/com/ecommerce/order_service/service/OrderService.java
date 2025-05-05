@@ -1,13 +1,11 @@
 package com.ecommerce.order_service.service;
 
-import com.ecommerce.order_service.dto.InventoryCheckRequestDTO;
-import com.ecommerce.order_service.dto.OrderRequestDTO;
-import com.ecommerce.order_service.dto.OrderResponseDTO;
-import com.ecommerce.order_service.dto.ProductResponseDTO;
+import com.ecommerce.order_service.dto.*;
 import com.ecommerce.order_service.exception.CartException;
 import com.ecommerce.order_service.exception.EmptyCartException;
 import com.ecommerce.order_service.exception.ProductNotFoundException;
 import com.ecommerce.order_service.exception.ProductOutOfStockException;
+import com.ecommerce.order_service.kafka.KafkaProducer;
 import com.ecommerce.order_service.model.Cart;
 import com.ecommerce.order_service.model.CartItem;
 import com.ecommerce.order_service.model.Order;
@@ -42,11 +40,13 @@ public class OrderService {
     private final RestTemplate restTemplate;
     private final String productServiceUrl;
     private final String inventoryServiceUrl;
+    private final KafkaProducer kafkaProducer;
 
     public OrderService(OrderRepository orderRepository, OrderItemsRepository orderItemsRepository,
                         CartItemRepository cartItemRepository, CartRepository cartRepository,
                         RestTemplate restTemplate, @Value("${product.service.url}") String productServiceUrl,
-                        @Value("${inventory.service.url}") String inventoryServiceUrl) {
+                        @Value("${inventory.service.url}") String inventoryServiceUrl,
+                        KafkaProducer kafkaProducer) {
         this.orderRepository = orderRepository;
         this.orderItemsRepository = orderItemsRepository;
         this.cartItemRepository = cartItemRepository;
@@ -54,6 +54,7 @@ public class OrderService {
         this.restTemplate = restTemplate;
         this.productServiceUrl = productServiceUrl;
         this.inventoryServiceUrl = inventoryServiceUrl;
+        this.kafkaProducer = kafkaProducer;
     }
 
     public List<CartItem> getUserCartProducts(UUID cartId, UUID userId, String token) throws Exception {
@@ -115,9 +116,12 @@ public class OrderService {
         orderResponseDTO.setTotalAmount(savedOrder.getTotalAmount().doubleValue());
         orderResponseDTO.setCreatedAt(savedOrder.getCreatedAt().toString());
         orderResponseDTO.setPaymentStatus("PENDING");
+        orderResponseDTO.setUserId(userId.toString());
 
         log.info("User Order placed: {}", savedOrder.getId());
 
+        // send event for notification and payment service
+        kafkaProducer.sendEvent("ORDER-PLACED", savedOrder.getId().toString(), orderResponseDTO);
         return orderResponseDTO;
     }
 
@@ -180,6 +184,19 @@ public class OrderService {
                 }
             }
         }
+    }
+
+    public void updateOrderStatus(PaymentResultEventDTO event) throws Exception {
+        UUID orderId = event.getOrderId();
+        String status = Objects.equals(event.getStatus(), "SUCCESS") ? "CONFIRMED" : "CANCELLED";
+
+        Optional<Order> order = orderRepository.findById(orderId);
+        if(order.isEmpty()) {
+            throw new Exception("Order not found with id: " + orderId);
+        }
+
+        order.get().setStatus(status);
+        orderRepository.save(order.get());
     }
 
 

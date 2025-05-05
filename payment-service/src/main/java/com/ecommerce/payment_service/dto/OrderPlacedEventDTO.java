@@ -1,11 +1,13 @@
-package com.ecommerce.order_service.dto;
+package com.ecommerce.payment_service.dto;
 
-public class OrderResponseDTO {
+import java.math.BigDecimal;
+
+public class OrderPlacedEventDTO {
     private boolean success;
     private String message;
     private String orderId;
     private String status;
-    private Double totalAmount;
+    private BigDecimal totalAmount;
     private String createdAt;
     private String paymentStatus;
     private String userId;
@@ -42,11 +44,11 @@ public class OrderResponseDTO {
         this.status = status;
     }
 
-    public Double getTotalAmount() {
+    public BigDecimal getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(Double totalAmount) {
+    public void setTotalAmount(BigDecimal totalAmount) {
         this.totalAmount = totalAmount;
     }
 
