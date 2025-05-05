@@ -17,6 +17,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ProductService {
@@ -32,6 +34,15 @@ public class ProductService {
         this.categoryRepository = categoryRepository;
         this.restTemplate = restTemplate;
         this.inventoryServiceUrl = inventoryServiceUrl;
+    }
+
+    public ProductResponseDTO getProductById(UUID productId) {
+        Optional<Product> product = productRepository.findById(productId);
+        if(product.isEmpty()) {
+            throw new ProductNotFoundException("No products found with this id: " + productId);
+        }
+
+        return ProductMapper.toDTO(product.get());
     }
 
     public List<ProductResponseDTO> getProductsByName(String name) {

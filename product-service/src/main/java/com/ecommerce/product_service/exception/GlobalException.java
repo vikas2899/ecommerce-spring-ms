@@ -30,7 +30,7 @@ public class GlobalException {
         log.warn("product not found exception: {}", ex.getMessage());
 
         Map<String, String> errors = new HashMap<>();
-        errors.put("message", "Product with given name not found");
+        errors.put("message", "Product with given name/id not found");
         return ResponseEntity.badRequest().body(errors);
     }
 
