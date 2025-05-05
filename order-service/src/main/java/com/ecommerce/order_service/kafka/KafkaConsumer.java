@@ -8,18 +8,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
-
 @Service
 public class KafkaConsumer {
     private static final Logger log = LoggerFactory.getLogger(KafkaConsumer.class);
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    private final KafkaProducer kafkaProducer;
     private final OrderService orderService;
 
-    public KafkaConsumer(KafkaProducer kafkaProducer, OrderService orderService) {
-        this.kafkaProducer = kafkaProducer;
+    public KafkaConsumer(OrderService orderService) {
         this.orderService = orderService;
     }
 

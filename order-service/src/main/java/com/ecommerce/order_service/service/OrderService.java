@@ -195,6 +195,23 @@ public class OrderService {
             throw new Exception("Order not found with id: " + orderId);
         }
 
+        if(event.getStatus().equals("SUCCESS")) {
+            // deduct stock from inventory is status is SUCCESS
+            List<InventoryEventDTO> inventoryEventDTOS = new ArrayList<>();
+            List<OrderItem> orderItems = orderItemsRepository.findByOrderId(orderId);
+
+            for(OrderItem item: orderItems) {
+                log.info("ID: {}, Quantity: {}", item.getId(), item.getQuantity());
+                InventoryEventDTO eventDTO = new InventoryEventDTO();
+                eventDTO.setProductId(item.getProductId());
+                eventDTO.setQuantity(item.getQuantity());
+
+                inventoryEventDTOS.add(eventDTO);
+            }
+            // Send event to inventory service
+            kafkaProducer.sendEvent("INVENTORY-UPDATE", orderId.toString(), inventoryEventDTOS);
+        }
+
         order.get().setStatus(status);
         orderRepository.save(order.get());
     }
