@@ -22,7 +22,7 @@ spring:
     consumer:
       value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-    bootstrap-servers: localhost:9094
+    bootstrap-servers: kafka:9092
 
 server:
   port: 5001
@@ -34,4 +34,4 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://discovery-server:8761/eureka

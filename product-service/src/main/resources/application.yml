@@ -21,19 +21,7 @@ server:
 
 inventory:
   service:
-    url: http://INVENTORY-SERVICE/inventory/stock
-
-management:
-  health:
-    circuitbreakers:
-      enabled: true
-  endpoints:
-    web:
-      exposure:
-        include: health
-  endpoint:
-    health:
-      show-details: always
+    url: lb://INVENTORY-SERVICE/inventory/stock
 
 resilience4j:
   circuitbreaker:
@@ -56,4 +44,4 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://discovery-server:8761/eureka

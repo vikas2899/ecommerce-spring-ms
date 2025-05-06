@@ -35,6 +35,21 @@ spring:
           filters:
             - StripPrefix=1
 
+        - id: order-service-order
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/api/order/**
+          filters:
+            - StripPrefix=1
+
+        - id: order-service-cart
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/api/cart/**
+          filters:
+            - StripPrefix=1
+
+
 eureka:
   instance:
     prefer-ip-address: true
@@ -42,5 +57,5 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://discovery-server:8761/eureka
 
