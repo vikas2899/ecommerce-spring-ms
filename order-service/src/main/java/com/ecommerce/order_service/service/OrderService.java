@@ -208,8 +208,11 @@ public class OrderService {
 
                 inventoryEventDTOS.add(eventDTO);
             }
-            // Send event to inventory service
+            // Send event to inventory and notification
             kafkaProducer.sendEvent("INVENTORY-UPDATE", orderId.toString(), inventoryEventDTOS);
+            kafkaProducer.sendEvent("ORDER-CONFIRMED", orderId.toString(), null);
+        } else {
+             kafkaProducer.sendEvent("ORDER-CANCELLED", orderId.toString(), null);
         }
 
         order.get().setStatus(status);
