@@ -78,6 +78,51 @@ public class OrderService {
         return cartItems;
     }
 
+    public GetAllOrdersDTO getOrderDetails(UUID userId, String token) throws Exception {
+        Optional<List<Order>> order = orderRepository.findByUserId(userId);
+        if(order.isEmpty()) {
+            throw new Exception("Order not found");
+        }
+
+        GetAllOrdersDTO orders = new GetAllOrdersDTO();
+        List<GetOrderResponseDTO> orderResponse = new ArrayList<>();
+
+        List<Order> orderList = order.get();
+        orderList.sort(Comparator.comparing(Order::getCreatedAt).reversed());
+
+        orderList.forEach(order1 -> {
+            List<OrderItem> orderItem = orderItemsRepository.findByOrderId(order1.getId());
+            GetOrderResponseDTO response = new GetOrderResponseDTO();
+            response.setId(order1.getId().toString());
+            response.setOrderStatus(order1.getStatus());
+            response.setCreatedAt(order1.getCreatedAt().toString());
+
+            List<CartProductsDTO> product = new ArrayList<>();
+
+            orderItem.forEach(o -> {
+                ProductResponseDTO p = fetchProduct(o.getProductId(), token);
+                CartProductsDTO orderProduct = new CartProductsDTO();
+
+                orderProduct.setId(p.getId());
+                orderProduct.setName(p.getName());
+                orderProduct.setDescription(p.getDescription());
+                orderProduct.setImages(p.getImages());
+                orderProduct.setPrice(o.getPrice().floatValue());
+                orderProduct.setQuantity(o.getQuantity());
+
+
+                product.add(orderProduct);
+            });
+
+            response.setProducts(product);
+            orderResponse.add(response);
+        });
+
+        orders.setOrders(orderResponse);
+
+        return orders;
+    }
+
     @Transactional
     public OrderResponseDTO createOrder(OrderRequestDTO orderRequestDTO, UUID userId, String token) throws Exception {
         UUID cartId = orderRequestDTO.getCartId();
@@ -88,7 +133,7 @@ public class OrderService {
         }
 
         double totalAmount = cartItems.stream().mapToDouble(item ->
-                item.getQuantity() * fetchProductPrice(item.getProductId(), token)).sum();
+                item.getQuantity() * fetchProduct(item.getProductId(), token).getPrice()).sum();
 
         Order order = new Order();
         order.setUserId(userId);
@@ -102,8 +147,9 @@ public class OrderService {
             orderItem.setOrder(order);
             orderItem.setProductId(item.getProductId());
             orderItem.setQuantity(item.getQuantity());
+            orderItem.setOrderedAt(LocalDateTime.now());
 
-            orderItem.setPrice(BigDecimal.valueOf(fetchProductPrice(item.getProductId(), token)));
+            orderItem.setPrice(BigDecimal.valueOf(fetchProduct(item.getProductId(), token).getPrice()));
             orderItemsRepository.save(orderItem);
         }
 
@@ -125,7 +171,7 @@ public class OrderService {
         return orderResponseDTO;
     }
 
-    private double fetchProductPrice(UUID productId, String authHeader) {
+    private ProductResponseDTO fetchProduct(UUID productId, String authHeader) {
         String url = productServiceUrl + "/" + productId;
 
         HttpHeaders headers = new HttpHeaders();
@@ -144,7 +190,7 @@ public class OrderService {
             ProductResponseDTO product = response.getBody();
 
             if (product != null) {
-                return product.getPrice();
+                return product;
             } else {
                 throw new RuntimeException("Failed to fetch product or product not found");
             }

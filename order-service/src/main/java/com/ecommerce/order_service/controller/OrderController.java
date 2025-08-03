@@ -1,5 +1,7 @@
 package com.ecommerce.order_service.controller;
 
+import com.ecommerce.order_service.dto.GetAllOrdersDTO;
+import com.ecommerce.order_service.dto.GetOrderResponseDTO;
 import com.ecommerce.order_service.dto.OrderRequestDTO;
 import com.ecommerce.order_service.dto.OrderResponseDTO;
 import com.ecommerce.order_service.service.OrderService;
@@ -36,6 +38,19 @@ public class OrderController {
         OrderResponseDTO responseDTO = orderService.createOrder(orderRequestDTO, userId, token);
 
         return ResponseEntity.ok(responseDTO);
+    }
+
+    @GetMapping()
+    public ResponseEntity<GetAllOrdersDTO> getOrder(@RequestHeader("Authorization") String authHeader) throws Exception {
+        if(authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        UUID userId = jwtUtils.getId(authHeader.substring(7));
+        String token = authHeader.substring(7);
+
+        GetAllOrdersDTO response = orderService.getOrderDetails(userId, token);
+        return ResponseEntity.ok(response);
     }
 
 }

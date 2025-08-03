@@ -2,6 +2,8 @@ package com.ecommerce.order_service.controller;
 
 import com.ecommerce.order_service.dto.AddCartRequestDTO;
 import com.ecommerce.order_service.dto.AddCartResponseDTO;
+import com.ecommerce.order_service.dto.GetCartResponseDTO;
+import com.ecommerce.order_service.dto.UpdateCartRequestDTO;
 import com.ecommerce.order_service.exception.CartException;
 import com.ecommerce.order_service.service.CartService;
 import com.ecommerce.order_service.utils.JwtUtils;
@@ -44,7 +46,59 @@ public class CartController {
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
-
     }
 
+    @GetMapping("")
+    public ResponseEntity<GetCartResponseDTO> getCartItems(@RequestHeader("Authorization") String authHeader) {
+        if(authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        try {
+            UUID userId = jwtUtils.getId(authHeader.replace("Bearer ", ""));
+            GetCartResponseDTO cart = cartService.getCartItems(userId);
+
+            return ResponseEntity.ok().body(cart);
+        } catch (CartException e) {
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<Void> updateCartItems(@RequestHeader("Authorization") String authHeader, @Valid @RequestBody UpdateCartRequestDTO updateCartRequestDTO) {
+        if(authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        try {
+            UUID userId = jwtUtils.getId(authHeader.replace("Bearer ", ""));
+            cartService.updateCart(updateCartRequestDTO, userId);
+            log.info("Items updated in cart");
+            return ResponseEntity.ok().build();
+        } catch (CartException e) {
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCartItem(@RequestHeader("Authorization") String authHeader, @PathVariable("id") UUID productId) {
+        if(authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        try {
+            UUID userId = jwtUtils.getId(authHeader.replace("Bearer ", ""));
+            cartService.removeCartItem(productId, userId);
+            log.info("Items removed from cart");
+            return ResponseEntity.ok().build();
+        } catch (CartException e) {
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
 }

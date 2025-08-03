@@ -1,12 +1,11 @@
 package com.ecommerce.product_service.controller;
 
+import com.ecommerce.product_service.dto.CategoryResponseDTO;
 import com.ecommerce.product_service.dto.ProductResponseDTO;
 import com.ecommerce.product_service.service.ProductService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
-import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,42 +25,29 @@ public class ProductController {
 
     @CircuitBreaker(name = "product-inventory-breaker", fallbackMethod = "productInventoryFallback")
     @GetMapping("/search")
-    public ResponseEntity<List<ProductResponseDTO>> getProducts(@RequestParam(required = false) String name,
-                                                                @RequestParam(required = false) String category,
-                                                                HttpServletRequest request) {
+    public ResponseEntity<List<ProductResponseDTO>> getProducts(@RequestParam(required = false) String query) {
 
-        String authHeader = request.getHeader("Authorization");
-        if(authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
-        List<ProductResponseDTO> products = productService.searchProductsWithInventory(name, category, authHeader);
+        List<ProductResponseDTO> products = productService.searchProductsWithInventory(query);
         return ResponseEntity.ok().body(products);
     }
 
-    public ResponseEntity<List<ProductResponseDTO>> productInventoryFallback(@RequestParam(required = false) String name,
-                                                                             @RequestParam(required = false) String category,
-                                                                             HttpServletRequest request,
+    public ResponseEntity<List<ProductResponseDTO>> productInventoryFallback(@RequestParam(required = false) String query,
                                                                              Exception ex) {
         log.info("Fallback: Inventory service not available... {}", ex.getMessage());
 
-        String authHeader = request.getHeader("Authorization");
-        if(authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
-        List<ProductResponseDTO> products = productService.searchProducts(name, category, authHeader);
+        List<ProductResponseDTO> products = productService.searchProducts(query);
         return ResponseEntity.ok().body(products);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable("id") UUID productId, @RequestHeader("Authorization") String authHeader) {
-        if(authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+    public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable("id") UUID productId) {
 
         ProductResponseDTO productResponseDTO = productService.getProductById(productId);
         return ResponseEntity.ok().body(productResponseDTO);
     }
 
+    @GetMapping("/by-category")
+    public List<CategoryResponseDTO> getProductsGroupedByCategory() {
+        return productService.getProductsGroupedByCategory();
+    }
 }

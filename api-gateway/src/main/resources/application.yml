@@ -18,7 +18,13 @@ spring:
             - Path=/api/products/**
           filters:
             - StripPrefix=1
-            - JwtValidation
+
+        - id: category-service
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/api/category/**
+          filters:
+            - StripPrefix=1
 
         - id: inventory-service
           uri: lb://INVENTORY-SERVICE
@@ -41,6 +47,7 @@ spring:
             - Path=/api/order/**
           filters:
             - StripPrefix=1
+            - JwtValidation
 
         - id: order-service-cart
           uri: lb://ORDER-SERVICE
@@ -48,6 +55,17 @@ spring:
             - Path=/api/cart/**
           filters:
             - StripPrefix=1
+            - JwtValidation
+
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origins:
+              - "http://localhost:5173"
+              - "http://localhost:3000"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            allowCredentials: true
 
 
 eureka:

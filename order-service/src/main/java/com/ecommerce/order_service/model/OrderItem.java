@@ -3,6 +3,7 @@ package com.ecommerce.order_service.model;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -25,6 +26,9 @@ public class OrderItem {
 
     @Column(name = "price", nullable = false)
     private BigDecimal price;
+
+    @Column(name = "ordered_at", nullable = false)
+    private LocalDateTime orderedAt;
 
     public UUID getId() {
         return id;
@@ -64,5 +68,13 @@ public class OrderItem {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public LocalDateTime getOrderedAt() {
+        return orderedAt;
+    }
+
+    public void setOrderedAt(LocalDateTime orderedAt) {
+        this.orderedAt = orderedAt;
     }
 }

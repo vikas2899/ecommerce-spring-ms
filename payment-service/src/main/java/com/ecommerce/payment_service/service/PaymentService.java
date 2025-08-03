@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 public class PaymentService {
 
     public boolean mockPayment() {
-        return Math.random() > 0.7;
+        return Math.random() > 0.4;
     }
 
 }
